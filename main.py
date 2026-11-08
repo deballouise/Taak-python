@@ -1,4 +1,6 @@
 from database.setup import InternaatDatabase
+from models.leerling import Leerling
+from database.queries import voeg_leerling_toe
 
 def toon_menu():
     print("\n" + "="*30)
@@ -23,7 +25,13 @@ def main():
         keuze = input("Kies een actie (1-5): ")
 
         if keuze == '1':
-            print("\n[!] Actie: Code om leerling toe te voegen komt hier.")
+            print("\n--- Nieuwe Leerling Inschrijven ---")
+            invoer_naam = input("Wat is de naam? ")
+            invoer_adres = input("Wat is het adres? ")
+            invoer_datum = input("Wat is de geboortedatum (bijv. 15-05-2010)? ")
+            nieuwe_leerling = Leerling(invoer_naam, invoer_adres, invoer_datum)
+            voeg_leerling_toe(db_manager.connectie, nieuwe_leerling)
+            
         elif keuze == '2':
             print("\n[!] Actie: Code om toestemming te wijzigen komt hier.")
         elif keuze == '3':

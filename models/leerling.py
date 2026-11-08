@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Nov  8 11:06:33 2026
-
-@author: Louise
-"""
-
+class Leerling:
+    def __init__(self, naam, adres, geboortedatum):
+        self.naam = naam
+        self.adres = adres
+        self.geboortedatum = geboortedatum
