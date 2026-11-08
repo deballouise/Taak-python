@@ -1,3 +1,5 @@
+from database.setup import InternaatDatabase
+
 def toon_menu():
     print("\n" + "="*30)
     print("       INTERNAAT AKSENT  ")
@@ -10,7 +12,10 @@ def toon_menu():
     print("-" * 30)
 
 def main():
-    print("\n Welkom bij het leerlingenoverzicht van Internaat Aksent.")
+    print("\nWelkom bij het leerlingenoverzicht van Internaat Aksent.")
+    
+    db_manager = InternaatDatabase()
+    db_manager.maak_connectie()
     
     while True:
         toon_menu()
@@ -26,6 +31,7 @@ def main():
             print("\n[!] Actie: Code om CSV/Excel rapport te maken komt hier.")
         elif keuze == '5':
             print("\nProgramma wordt afgesloten.")
+            db_manager.sluit_connectie()
             break
         else:
             print("\n[Fout] Ongeldige keuze. Typ een getal van 1 tot en met 5.")
