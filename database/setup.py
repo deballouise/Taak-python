@@ -3,11 +3,11 @@ import configparser
 
 class InternaatDatabase:
     def __init__(self):
-        # 1. Lees het instellingenbestand uit
+        #Lees het instellingenbestand uit
         config = configparser.ConfigParser()
         config.read('config.ini')
         
-        # 2. Haal de locatie van de database op uit de sectie [database]
+        #Haal de locatie van de database op uit de sectie [database]
         self.db_locatie = config['database']['db_locatie']
         self.connectie = None
 
@@ -27,3 +27,30 @@ class InternaatDatabase:
         if self.connectie:
             self.connectie.close()
             print("[Info] Databaseverbinding gesloten.")
+    
+    def maak_tabellen(self):
+        """Maakt de twee tabellen aan als ze nog niet bestaan."""
+        cursor = self.connectie.cursor()
+
+        # Tabel 1: De leerlingen
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Leerlingen (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                naam TEXT,
+                adres TEXT,
+                geboortedatum TEXT
+            )
+        ''')
+
+        # Tabel 2: De woensdag-toestemmingen
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Toestemmingen (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                leerling_id INTEGER,
+                toestemming_ouders TEXT,
+                opmerking TEXT
+            )
+        ''')
+
+        self.connectie.commit()
+        print("[Info] De tabellen 'Leerlingen' en 'Toestemmingen' staan klaar.")

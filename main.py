@@ -16,6 +16,7 @@ def main():
     
     db_manager = InternaatDatabase()
     db_manager.maak_connectie()
+    db_manager.maak_tabellen()
     
     while True:
         toon_menu()
