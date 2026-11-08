@@ -1,6 +1,6 @@
 from database.setup import InternaatDatabase
 from models.leerling import Leerling
-from database.queries import voeg_leerling_toe, toon_alle_leerlingen, registreer_toestemming, controleer_vertrek
+from database.queries import voeg_leerling_toe, toon_alle_leerlingen, registreer_toestemming, controleer_vertrek, genereer_rapport
 
 def toon_menu():
     print("\n" + "="*30)
@@ -51,7 +51,9 @@ def main():
             controleer_vertrek(db_manager.connectie, invoer_id)
             
         elif keuze == '4':
-            print("\n[!] Actie: Code om CSV/Excel rapport te maken komt hier.")
+            print("\n--- Bezig met genereren van vertreklijst ---")
+            genereer_rapport(db_manager.connectie)
+            
         elif keuze == '5':
             print("\nProgramma wordt afgesloten.")
             db_manager.sluit_connectie()

@@ -1,4 +1,5 @@
 from datetime import datetime
+import csv
 
 def voeg_leerling_toe(connectie, leerling):
     """Zet een nieuw leerling-object in de database."""
@@ -78,3 +79,41 @@ def controleer_vertrek(connectie, leerling_id):
         print(">> CONCLUSIE: Deze leerling mag het internaat verlaten!")
     else:
         print(">> CONCLUSIE: Deze leerling mag NIET vertrekken.")
+
+
+def genereer_rapport(connectie):
+    """Maakt een CSV-bestand van alle leerlingen die vandaag mogen vertrekken."""
+    cursor = connectie.cursor()
+    sql = """
+        SELECT Leerlingen.naam, Leerlingen.geboortedatum 
+        FROM Leerlingen 
+        JOIN Toestemmingen ON Leerlingen.id = Toestemmingen.leerling_id 
+        WHERE Toestemmingen.toestemming_ouders = 'Ja'
+    """
+    cursor.execute(sql)
+    rijen = cursor.fetchall()
+    mogen_vertrekken = []
+    vandaag = datetime.now()
+    
+    for rij in rijen:
+        naam = rij[0]
+        geboortedatum_tekst = rij[1]
+        
+        try:
+            geboorte_datum = datetime.strptime(geboortedatum_tekst, "%d-%m-%Y")
+            leeftijd = vandaag.year - geboorte_datum.year - ((vandaag.month, vandaag.day) < (geboorte_datum.month, geboorte_datum.day))
+            if leeftijd >= 16:
+                mogen_vertrekken.append([naam, leeftijd])
+        except:
+            pass 
+            
+    bestandsnaam = "vertreklijst.csv"
+    
+    with open(bestandsnaam, mode='w', newline='') as bestand:
+        schrijver = csv.writer(bestand, delimiter=';')
+        schrijver.writerow(['Naam', 'Leeftijd (Jaren)']) 
+        
+        for leerling in mogen_vertrekken:
+            schrijver.writerow(leerling)
+            
+    print(f"\n[Succes] Het rapport is klaargezet als '{bestandsnaam}' in je map!")         
