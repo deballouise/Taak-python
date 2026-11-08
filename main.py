@@ -1,6 +1,6 @@
 from database.setup import InternaatDatabase
 from models.leerling import Leerling
-from database.queries import voeg_leerling_toe, toon_alle_leerlingen, registreer_toestemming
+from database.queries import voeg_leerling_toe, toon_alle_leerlingen, registreer_toestemming, controleer_vertrek
 
 def toon_menu():
     print("\n" + "="*30)
@@ -43,7 +43,13 @@ def main():
             registreer_toestemming(db_manager.connectie, invoer_id, invoer_toestemming, invoer_opmerking)
             
         elif keuze == '3':
-            print("\n[!] Actie: Code om vertrek te controleren komt hier.")
+            print("\n--- Controleer Vertrek ---")
+            toon_alle_leerlingen(db_manager.connectie)
+
+            print("-" * 30)
+            invoer_id = input("Typ het ID van de leerling die wil vertrekken: ")
+            controleer_vertrek(db_manager.connectie, invoer_id)
+            
         elif keuze == '4':
             print("\n[!] Actie: Code om CSV/Excel rapport te maken komt hier.")
         elif keuze == '5':

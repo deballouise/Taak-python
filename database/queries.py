@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def voeg_leerling_toe(connectie, leerling):
     """Zet een nieuw leerling-object in de database."""
     cursor = connectie.cursor()
@@ -34,3 +36,45 @@ def registreer_toestemming(connectie, leerling_id, toestemming, opmerking):
     connectie.commit()
     
     print("[Succes] De toestemming is geregistreerd in de database!")
+    
+    
+def controleer_vertrek(connectie, leerling_id):
+    """Controleert leeftijd en toestemming van een leerling."""
+    cursor = connectie.cursor()
+    
+    sql = """
+        SELECT Leerlingen.naam, Leerlingen.geboortedatum, Toestemmingen.toestemming_ouders 
+        FROM Leerlingen 
+        LEFT JOIN Toestemmingen ON Leerlingen.id = Toestemmingen.leerling_id 
+        WHERE Leerlingen.id = ?
+    """
+    cursor.execute(sql, (leerling_id,))
+    resultaat = cursor.fetchone()
+    
+    if resultaat == None:
+        print("[Fout] Deze leerling is niet gevonden in de database.")
+        return
+
+    naam = resultaat[0]
+    geboortedatum_tekst = resultaat[1]
+    toestemming = resultaat[2]
+
+    try:
+        geboorte_datum = datetime.strptime(geboortedatum_tekst, "%d-%m-%Y")
+        vandaag = datetime.now()
+        leeftijd = vandaag.year - geboorte_datum.year - ((vandaag.month, vandaag.day) < (geboorte_datum.month, geboorte_datum.day))
+    except:
+        print("[Fout] De geboortedatum is verkeerd ingevuld. Gebruik het formaat dd-mm-jjjj.")
+        return
+
+    print(f"\n--- Resultaat voor {naam} ---")
+    print(f"Leeftijd: {leeftijd} jaar oud")
+    
+    if toestemming == None:
+        toestemming = "Nog niet ingevuld"
+    print(f"Toestemming ouders: {toestemming}")
+    
+    if leeftijd >= 16 and toestemming == 'Ja':
+        print(">> CONCLUSIE: Deze leerling mag het internaat verlaten!")
+    else:
+        print(">> CONCLUSIE: Deze leerling mag NIET vertrekken.")
