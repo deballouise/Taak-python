@@ -12,7 +12,7 @@ class InternaatDatabase:
         self.connectie = None
 
     def maak_connectie(self):
-        """Maakt verbinding met de SQLite database."""
+        "Maakt verbinding met de SQLite database."
         try:
             # Connect maakt het bestand automatisch aan als het nog niet bestaat
             self.connectie = sqlite3.connect(self.db_locatie)
@@ -23,13 +23,13 @@ class InternaatDatabase:
             return None
 
     def sluit_connectie(self):
-        """Sluit de verbinding af."""
+        "Sluit de verbinding af."
         if self.connectie:
             self.connectie.close()
             print("[Info] Databaseverbinding gesloten.")
     
     def maak_tabellen(self):
-        """Maakt de twee tabellen aan als ze nog niet bestaan."""
+        "Maakt de twee tabellen aan als ze nog niet bestaan."
         cursor = self.connectie.cursor()
 
         # Tabel 1: De leerlingen

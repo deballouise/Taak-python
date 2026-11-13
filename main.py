@@ -1,4 +1,5 @@
 from database.setup import InternaatDatabase
+from datetime import datetime
 from models.leerling import Leerling
 from database.queries import voeg_leerling_toe, toon_alle_leerlingen, registreer_toestemming, controleer_vertrek, genereer_rapport
 
@@ -28,26 +29,54 @@ def main():
             print("\n--- Nieuwe Leerling Inschrijven ---")
             invoer_naam = input("Wat is de naam? ")
             invoer_adres = input("Wat is het adres? ")
-            invoer_datum = input("Wat is de geboortedatum (bijv. 15-05-2010)? ")
+            
+            while True:
+                invoer_datum = input("Wat is de geboortedatum (bijv. 15-05-2010)? ")
+                try: 
+                    datetime.strptime(invoer_datum, "%d-%m-%Y")
+                    break
+                except ValueError:
+                    print("[Fout] Verkeerde ingave. Gebruik het formaat dd-mm-jjjj")
+                    
             nieuwe_leerling = Leerling(invoer_naam, invoer_adres, invoer_datum)
             voeg_leerling_toe(db_manager.connectie, nieuwe_leerling)
             
         elif keuze == '2':
             print("\n--- Toestemming Registreren ---")
             toon_alle_leerlingen(db_manager.connectie)
-
             print("-" * 30)
-            invoer_id = input("Typ het ID van de leerling: ")
-            invoer_toestemming = input("Mag deze leerling vertrekken? (Ja/Nee): ")
+            
+            while True:
+                invoer_id = input("Typ het ID van de leerling: ")
+                try:
+                    int(invoer_id)
+                    break
+                except ValueError:
+                    print(["[Fout] een ID mag alleen uit cijfers bestaan"])
+            
+            while True:
+                invoer_toestemming = input("Mag deze leerling vertrekken? (Ja/Nee): ")
+                if invoer_toestemming in ["Ja","Nee"]:
+                    break
+                else:
+                    print("[Fout] Typ enkel 'Ja' of 'Nee'")
+                    
             invoer_opmerking = input("Opmerking (bijv. 'Na 13u', of laat leeg): ")        
             registreer_toestemming(db_manager.connectie, invoer_id, invoer_toestemming, invoer_opmerking)
             
         elif keuze == '3':
             print("\n--- Controleer Vertrek ---")
             toon_alle_leerlingen(db_manager.connectie)
-
             print("-" * 30)
-            invoer_id = input("Typ het ID van de leerling die wil vertrekken: ")
+            
+            while True:
+                invoer_id = input("Typ het ID van de leerling die wil vertrekken: ")
+                try:
+                    int(invoer_id)
+                    break
+                except ValueError:
+                    print(["[Fout] een ID mag alleen uit cijfers bestaan"])
+                    
             controleer_vertrek(db_manager.connectie, invoer_id)
             
         elif keuze == '4':
@@ -59,7 +88,7 @@ def main():
             db_manager.sluit_connectie()
             break
         else:
-            print("\n[Fout] Ongeldige keuze. Typ een getal van 1 tot en met 5.")
+            print("[Fout] Ongeldige keuze. Typ een getal van 1 tot 5.")
 
 if __name__ == "__main__":
     main()

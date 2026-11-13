@@ -2,7 +2,7 @@ from datetime import datetime
 import csv
 
 def voeg_leerling_toe(connectie, leerling):
-    """Zet een nieuw leerling-object in de database."""
+    "Zet een nieuw leerling-object in de database."
     cursor = connectie.cursor()
     
     sql = "INSERT INTO Leerlingen (naam, adres, geboortedatum) VALUES (?, ?, ?)"
@@ -15,7 +15,7 @@ def voeg_leerling_toe(connectie, leerling):
     
     
 def toon_alle_leerlingen(connectie):
-    """Haalt een lijst op van alle leerlingen in de database."""
+    "Haalt een lijst op van alle leerlingen in de database."
     cursor = connectie.cursor()
     cursor.execute("SELECT id, naam FROM Leerlingen")
     rijen = cursor.fetchall()
@@ -27,7 +27,7 @@ def toon_alle_leerlingen(connectie):
 
 
 def registreer_toestemming(connectie, leerling_id, toestemming, opmerking):
-    """Slaat de toestemming van de ouders op in de tweede tabel."""
+    "Slaat de toestemming van de ouders op in de tweede tabel."
     cursor = connectie.cursor()
     
     sql = "INSERT INTO Toestemmingen (leerling_id, toestemming_ouders, opmerking) VALUES (?, ?, ?)"
@@ -40,7 +40,7 @@ def registreer_toestemming(connectie, leerling_id, toestemming, opmerking):
     
     
 def controleer_vertrek(connectie, leerling_id):
-    """Controleert leeftijd en toestemming van een leerling."""
+    "Controleert leeftijd en toestemming van een leerling."
     cursor = connectie.cursor()
     
     sql = """
