@@ -24,25 +24,25 @@ Basisfuncties:
 
 Hoe het project zelf installeren:
 
-* Clone de repository naar je lokale machine.
+* Clone de repository in je terminal.
 
 
 
 * Virtual Environment:
 
-&#x20;  Maak een venv aan (`python -m venv venv`) en activeer deze. Installeer eventuele benodigdheden via `pip install -r requirements.txt`.
+&#x20;  Maak een venv aan (`python -m venv venv`) en activeer deze ('venv\Scripts\activate'). Installeer benodigdheden via `pip install -r requirements.txt`.
 
 
 
 * Instellingenbestand:
 
-&#x20;  In de hoofdmap vind je het bestand `config\_example.ini`. Maak in deze map zelf een nieuw bestand aan genaamd `config.ini`. 
+&#x20;  In de hoofdmap vind je het bestand `config\_example.ini`. Maak in deze map zelf een nieuw tekstbestand aan genaamd `config.ini`. 
 
-&#x20;  Kopieer de structuur van het voorbeeld en vul het lokale pad naar jouw gewenste database-locatie in. (Het `config.ini` bestand en de `.db` bestanden worden genegeerd door Git).
+&#x20;  Kopieer de structuur van het voorbeeld en vul het lokale pad naar jouw gewenste database-locatie in.
 
 
 
 * Uitvoeren:
 
-&#x20;  Start het programma door `python main.py` uit te voeren in de terminal. De applicatie zal zelf de tabellen aanmaken in de SQLite database als deze nog niet bestaan.
+&#x20;  Start het programma door `python main.py` uit te voeren in de terminal. 
 
