@@ -34,7 +34,7 @@ Hoe het project zelf installeren:
 
 
 
-* Instellingenbestand (Belangrijk!):
+* Instellingenbestand:
 
 &#x20;  In de hoofdmap vind je het bestand `config\_example.ini`. Maak in deze map zelf een nieuw bestand aan genaamd `config.ini`. 
 
